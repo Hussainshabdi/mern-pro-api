@@ -3,7 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Todo = require('./Models/Todo.js');
-// const Parser = require('bod')
+const bodyParser = require('body-parser')
+
 
 //default
 mongoose.set('strictQuery',false);
@@ -17,8 +18,9 @@ mongoose.connect(db,{
     useUnifiedTopology:true
 }).then(()=>{
     console.log("db is connected")
-}).catch(console.error);
+}).catch(()=>console.log("error in website"));
 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //start
 
@@ -33,6 +35,7 @@ app.post('/todo/new',(req,res)=>{
         text:req.body.text
     })
     todo.save();
+    console.log(todo)
     res.json(todo);
 })
 // delete
@@ -54,4 +57,4 @@ app.post('/todo/new',(req,res)=>{
     todo.save();
     res.json(todo);
  })
-app.listen(3005,()=>console.log("server is running at 4000"));
+app.listen(3005,()=>console.log("server is running at 3500"));
